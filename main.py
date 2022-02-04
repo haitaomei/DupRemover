@@ -87,7 +87,7 @@ def move_duplicated_files(plans, progress_update):
         dir_for_new_file = pathlib.Path(*pathlib.Path(path_to_move).parts[:-1])
         if not os.path.exists(dir_for_new_file):
             os.makedirs(dir_for_new_file)
-            shutil.move(path_from, path_to_move)
+        shutil.move(path_from, path_to_move)
         i += 1
         progress_update(i, len(plans))
 
