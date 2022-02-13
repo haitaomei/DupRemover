@@ -46,12 +46,15 @@ def group_with_checksum(file_path, **kwargs):
     hashing = kwargs['hash']
     running_info: list = kwargs['state']
     progress_update = kwargs['progress_update']
-    md5checksum = hashing(file_path)
-    if md5checksum not in groupings:
-        groupings[md5checksum] = []
-    groupings[hashing(file_path)].append(file_path)
-    running_info[0] += os.path.getsize(file_path)
-    progress_update(running_info[0], running_info[1])
+    try:
+        md5checksum = hashing(file_path)
+        if md5checksum not in groupings:
+            groupings[md5checksum] = []
+        groupings[hashing(file_path)].append(file_path)
+        running_info[0] += os.path.getsize(file_path)
+        progress_update(running_info[0], running_info[1])
+    except:
+        print('Cannot calculate check sum for', file_path, ', this file will be skipped')
 
 
 def md5(file_name):
@@ -65,6 +68,7 @@ def md5(file_name):
 def generate_plan(file_groupings):
     pending = []
     for _, (checksum, files) in enumerate(file_groupings.items()):
+        files.sort()
         if len(files) > 1:
             print('Same files found [checksum = ', checksum, ']:\n\t', files)
             i = 0
