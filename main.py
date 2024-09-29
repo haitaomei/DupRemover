@@ -97,6 +97,7 @@ def move_duplicated_files(plans, progress_update):
             progress_update(i, len(plans))
         except:
             print('failed to move file', path_from, 'to', path_to_move)
+            continue
 
 
 if __name__ == '__main__':
